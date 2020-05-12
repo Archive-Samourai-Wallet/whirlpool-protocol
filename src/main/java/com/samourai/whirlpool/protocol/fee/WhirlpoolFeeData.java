@@ -4,12 +4,10 @@ public class WhirlpoolFeeData {
 
   private int feeIndice;
   private byte[] feePayload; // 2 bytes
-  private short feePartner;
 
-  public WhirlpoolFeeData(int feeIndice, byte[] feePayload, short feePartner) {
+  public WhirlpoolFeeData(int feeIndice, byte[] feePayload) {
     this.feeIndice = feeIndice;
     this.feePayload = feePayload != null ? feePayload : null;
-    this.feePartner = feePartner;
   }
 
   public int getFeeIndice() {
@@ -18,9 +16,5 @@ public class WhirlpoolFeeData {
 
   public byte[] getFeePayload() {
     return feePayload;
-  }
-
-  public short getFeePartner() {
-    return feePartner;
   }
 }
