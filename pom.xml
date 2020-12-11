@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>io.samourai.code.wallet</groupId>
 			<artifactId>extlibj</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>0.0.16-fetchWallet</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.platform</groupId>

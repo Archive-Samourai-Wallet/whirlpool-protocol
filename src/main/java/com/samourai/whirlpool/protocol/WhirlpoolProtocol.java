@@ -31,6 +31,11 @@ public class WhirlpoolProtocol {
 
   public WhirlpoolProtocol() {}
 
+  public static String getUrlCheckOutput(String server) {
+    String url = server + WhirlpoolEndpoint.REST_CHECK_OUTPUT;
+    return url;
+  }
+
   public static String getUrlRegisterOutput(String server) {
     String url = server + WhirlpoolEndpoint.REST_REGISTER_OUTPUT;
     return url;
