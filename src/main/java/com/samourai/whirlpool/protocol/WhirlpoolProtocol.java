@@ -61,6 +61,11 @@ public class WhirlpoolProtocol {
     return url;
   }
 
+  public static String getUrlTx0Notify(String server) {
+    String url = server + WhirlpoolEndpoint.REST_TX0_NOTIFY;
+    return url;
+  }
+
   public static long computePremixBalanceMin(
       long denomination, long mustMixBalanceMin, boolean liquidity) {
     if (liquidity) {
