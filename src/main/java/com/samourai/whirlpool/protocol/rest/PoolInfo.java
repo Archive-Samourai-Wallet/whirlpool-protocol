@@ -11,10 +11,11 @@ public class PoolInfo {
   public long mustMixBalanceMax;
   public int minAnonymitySet;
   public int minMustMix;
-  public int nbRegistered;
+  public int tx0MaxOutputs;
 
   // mix info
 
+  public int nbRegistered;
   public int mixAnonymitySet;
   public MixStatus mixStatus;
   public long elapsedTime;
@@ -31,6 +32,7 @@ public class PoolInfo {
       long mustMixBalanceMax,
       int minAnonymitySet,
       int minMustMix,
+      int tx0MaxOutputs,
       int nbRegistered,
       int mixAnonymitySet,
       MixStatus mixStatus,
@@ -44,8 +46,9 @@ public class PoolInfo {
     this.mustMixBalanceMax = mustMixBalanceMax;
     this.minAnonymitySet = minAnonymitySet;
     this.minMustMix = minMustMix;
-    this.nbRegistered = nbRegistered;
+    this.tx0MaxOutputs = tx0MaxOutputs;
 
+    this.nbRegistered = nbRegistered;
     this.mixAnonymitySet = mixAnonymitySet;
     this.mixStatus = mixStatus;
     this.elapsedTime = elapsedTime;
