@@ -39,6 +39,9 @@ public class XorMask {
     ISecretPoint secretPointMask =
         secretPointFactory.newSecretPoint(input0PrivKey, notifAddressCli.getPubKey());
     byte[] dataMasked = PaymentCode.xorMask(dataToMask, secretPointMask, input0OutPoint);
+    if (dataMasked == null) {
+      throw new Exception("xorMask failed");
+    }
     return dataMasked;
   }
 

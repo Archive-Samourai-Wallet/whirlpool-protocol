@@ -27,6 +27,8 @@ public class WhirlpoolProtocol {
   /** Header specifying the pool id. */
   public static final String HEADER_POOL_ID = "poolId";
 
+  public static final short FEE_PAYLOAD_LENGTH = 64;
+
   private static final Z85 z85 = Z85.getInstance();
 
   public WhirlpoolProtocol() {}
@@ -54,7 +56,7 @@ public class WhirlpoolProtocol {
   }
 
   public static String getUrlTx0Data(String server, String poolId, String scode) {
-    String url = server + WhirlpoolEndpoint.REST_TX0_DATA + "?poolId=" + poolId;
+    String url = server + WhirlpoolEndpoint.REST_TX0_DATA_V2 + "?poolId=" + poolId;
     if (!StringUtils.isEmpty(url)) {
       url += "&scode=" + scode;
     }
