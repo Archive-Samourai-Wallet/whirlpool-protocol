@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang3.StringUtils;
 
 public class WhirlpoolProtocol {
   /** Current protocol version. */
@@ -28,6 +27,8 @@ public class WhirlpoolProtocol {
   public static final String HEADER_POOL_ID = "poolId";
 
   public static final short FEE_PAYLOAD_LENGTH = 64;
+
+  public static final String PARTNER_ID_SAMOURAI = "SAMOURAI";
 
   private static final Z85 z85 = Z85.getInstance();
 
@@ -55,11 +56,8 @@ public class WhirlpoolProtocol {
     return url;
   }
 
-  public static String getUrlTx0Data(String server, String poolId, String scode) {
-    String url = server + WhirlpoolEndpoint.REST_TX0_DATA_V2 + "?poolId=" + poolId;
-    if (!StringUtils.isEmpty(url)) {
-      url += "&scode=" + scode;
-    }
+  public static String getUrlTx0Data(String server) {
+    String url = server + WhirlpoolEndpoint.REST_TX0_DATA;
     return url;
   }
 
