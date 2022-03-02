@@ -61,8 +61,8 @@ public class WhirlpoolProtocol {
     return url;
   }
 
-  public static String getUrlTx0Notify(String server) {
-    String url = server + WhirlpoolEndpoint.REST_TX0_NOTIFY;
+  public static String getUrlTx0Push(String server) {
+    String url = server + WhirlpoolEndpoint.REST_TX0_PUSH;
     return url;
   }
 
