@@ -26,8 +26,6 @@ public class WhirlpoolProtocol {
   /** Header specifying the pool id. */
   public static final String HEADER_POOL_ID = "poolId";
 
-  public static final short FEE_PAYLOAD_LENGTH = 64;
-
   public static final String PARTNER_ID_SAMOURAI = "SAMOURAI";
 
   private static final Z85 z85 = Z85.getInstance();
