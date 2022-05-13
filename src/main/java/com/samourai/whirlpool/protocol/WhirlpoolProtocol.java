@@ -55,7 +55,7 @@ public class WhirlpoolProtocol {
   }
 
   public static String getUrlTx0Data(String server) {
-    String url = server + WhirlpoolEndpoint.REST_TX0_DATA;
+    String url = server + WhirlpoolEndpoint.REST_TX0_DATA_V1;
     return url;
   }
 
