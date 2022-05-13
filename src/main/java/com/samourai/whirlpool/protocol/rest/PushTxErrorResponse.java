@@ -3,6 +3,7 @@ package com.samourai.whirlpool.protocol.rest;
 import java.util.Collection;
 
 public class PushTxErrorResponse extends RestErrorResponse {
+  public static final int ERROR_CODE = 620;
   public String pushTxErrorCode;
   public Collection<Integer> voutsAddressReuse;
 
@@ -10,7 +11,7 @@ public class PushTxErrorResponse extends RestErrorResponse {
 
   public PushTxErrorResponse(
       String message, String pushTxErrorCode, Collection<Integer> voutsAddressReuse) {
-    super(message);
+    super(ERROR_CODE, message);
     this.pushTxErrorCode = pushTxErrorCode;
     this.voutsAddressReuse = voutsAddressReuse;
   }

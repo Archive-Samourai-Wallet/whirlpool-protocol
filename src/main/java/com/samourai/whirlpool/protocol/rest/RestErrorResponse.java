@@ -1,11 +1,13 @@
 package com.samourai.whirlpool.protocol.rest;
 
 public class RestErrorResponse {
+  private int errorCode; // TODO enable on next release
   public String message;
 
   public RestErrorResponse() {}
 
-  public RestErrorResponse(String message) {
+  public RestErrorResponse(int errorCode, String message) {
+    this.errorCode = errorCode;
     this.message = message;
   }
 }
