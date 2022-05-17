@@ -9,7 +9,7 @@ import org.bitcoinj.core.TransactionOutPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// FeePayloadV1_MASKED(46) | signingPublicKey(33) | OP_RETURN_VERSION(1)
+// FeePayloadV1_MASKED(46) | maskingPublicKey(33) | OP_RETURN_VERSION(1)
 public class FeeOpReturnImplV1 extends FeeOpReturnImpl {
   private static final Logger log = LoggerFactory.getLogger(FeeOpReturnImplV1.class);
 
@@ -59,23 +59,27 @@ public class FeeOpReturnImplV1 extends FeeOpReturnImpl {
     return signingPublicKey;
   }
 
-  @Override
-  public byte[] computeOpReturn(
-      String feePaymentCode,
-      byte[] feePayload,
-      TransactionOutPoint signingOutpoint,
-      byte[] signingPrivateKey)
+  protected byte[] generateMaskingPrivKey() {
+    return new ECKey().getPrivKeyBytes();
+  }
+
+  public byte[] computeOpReturnV1(
+      String feePaymentCode, byte[] feePayload, TransactionOutPoint maskingOutpoint)
       throws Exception {
+
+    // use temporary key for masking
+    byte[] maskingPrivKey = generateMaskingPrivKey();
+
     // compute feePayloadMasked
     byte[] feePayloadMasked =
-        maskFeePayload(feePaymentCode, feePayload, signingOutpoint, signingPrivateKey);
+        maskFeePayload(feePaymentCode, feePayload, maskingOutpoint, maskingPrivKey);
 
     // compute opReturn
-    byte[] signingPublicKey = ECKey.fromPrivate(signingPrivateKey).getPubKey();
+    byte[] maskingPublicKey = ECKey.fromPrivate(maskingPrivKey).getPubKey();
     byte[] opReturn = new byte[opReturnLength];
     System.arraycopy(feePayloadMasked, 0, opReturn, 0, feePayloadMasked.length);
     System.arraycopy(
-        signingPublicKey, 0, opReturn, getSigningPublicKeyOffset(), SIGNING_KEY_LENGTH);
+        maskingPublicKey, 0, opReturn, getSigningPublicKeyOffset(), SIGNING_KEY_LENGTH);
     System.arraycopy(
         new byte[] {getOpReturnVersionByte()},
         0,

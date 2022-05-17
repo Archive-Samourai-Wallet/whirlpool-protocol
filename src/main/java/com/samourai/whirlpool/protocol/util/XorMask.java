@@ -31,14 +31,14 @@ public class XorMask {
   public byte[] mask(
       byte[] dataToMask,
       String paymentCodeOfSecretAccount,
-      byte[] input0PrivKey,
+      byte[] maskingPrivKey,
       TransactionOutPoint input0OutPoint)
       throws Exception {
     NetworkParameters params = input0OutPoint.getParams();
     HD_Address notifAddressCli =
         new PaymentCode(paymentCodeOfSecretAccount).notificationAddress(params);
     ISecretPoint secretPointMask =
-        secretPointFactory.newSecretPoint(input0PrivKey, notifAddressCli.getPubKey());
+        secretPointFactory.newSecretPoint(maskingPrivKey, notifAddressCli.getPubKey());
     byte[] dataMasked = PaymentCode.xorMask(dataToMask, secretPointMask, input0OutPoint);
     if (dataMasked == null) {
       throw new Exception("xorMask failed");
@@ -50,13 +50,13 @@ public class XorMask {
   public byte[] maskToLength(
       byte[] dataToMask,
       String paymentCodeOfSecretAccount,
-      byte[] input0PrivKey,
+      byte[] maskingPrivKey,
       TransactionOutPoint input0OutPoint)
       throws Exception {
     // mask as 64 bytes
     byte[] dataToMask64 = toMaskLength(dataToMask);
     byte[] dataMasked =
-        mask(dataToMask64, paymentCodeOfSecretAccount, input0PrivKey, input0OutPoint);
+        mask(dataToMask64, paymentCodeOfSecretAccount, maskingPrivKey, input0OutPoint);
     // back to shorter length
     byte[] dataMaskedLength = fromMaskLength(dataMasked, dataToMask.length);
     return dataMaskedLength;

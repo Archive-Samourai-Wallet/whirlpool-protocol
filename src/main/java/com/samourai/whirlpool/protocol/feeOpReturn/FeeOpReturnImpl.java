@@ -63,8 +63,8 @@ public abstract class FeeOpReturnImpl {
   protected byte[] maskFeePayload(
       String feePaymentCode,
       byte[] feePayload,
-      TransactionOutPoint signingOutpoint,
-      byte[] signingPrivateKey)
+      TransactionOutPoint maskingOutpoint,
+      byte[] maskingPrivKey)
       throws Exception {
     if (log.isDebugEnabled()) {
       log.debug("feePayloadHex=" + Hex.toHexString(feePayload));
@@ -74,7 +74,7 @@ public abstract class FeeOpReturnImpl {
           "Invalid feePayload.length: " + feePayload.length + " vs " + this.feePayloadLength);
     }
     byte[] feePayloadMasked =
-        xorMask.maskToLength(feePayload, feePaymentCode, signingPrivateKey, signingOutpoint);
+        xorMask.maskToLength(feePayload, feePaymentCode, maskingPrivKey, maskingOutpoint);
     if (!acceptsFeePayload(feePayloadMasked)) {
       throw new Exception(
           "Invalid feePayloadMasked.length: "
@@ -90,13 +90,6 @@ public abstract class FeeOpReturnImpl {
       BIP47Account secretAccountBip47,
       TransactionOutPoint input0OutPoint,
       byte[] input0Pubkey)
-      throws Exception;
-
-  public abstract byte[] computeOpReturn(
-      String feePaymentCode,
-      byte[] feePayload,
-      TransactionOutPoint signingOutpoint,
-      byte[] signingPrivateKey)
       throws Exception;
 
   public abstract byte[] computeFeePayload(int feeIndice, short scodePayload, short partner);

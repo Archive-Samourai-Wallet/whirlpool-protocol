@@ -16,7 +16,7 @@ public class FeeOpReturnImplV0Test extends AbstractTest {
   private static String PCODE_V0 =
       "PM8TJXp19gCE6hQzqRi719FGJzF6AreRwvoQKLRnQ7dpgaakakFns22jHUqhtPQWmfevPQRCyfFbdDrKvrfw9oZv5PjaCerQMa3BKkPyUf9yN1CDR3w6";
 
-  private FeeOpReturnImpl feeOpReturnImpl;
+  private FeeOpReturnImplV0 feeOpReturnImpl;
   private BIP47Account bip47Account;
 
   @BeforeEach
@@ -113,7 +113,7 @@ public class FeeOpReturnImplV0Test extends AbstractTest {
     TransactionOutPoint outPoint = mockTxOutput(segwitAddress).getOutPointFor();
     String feePaymentCode = bip47Account.getPaymentCode();
     byte[] opReturn =
-        feeOpReturnImpl.computeOpReturn(
+        feeOpReturnImpl.computeOpReturnV0(
             feePaymentCode, feePayloadBytes, outPoint, pk.getPrivKeyBytes());
     String opReturnStr = bytesToBinaryString(opReturn);
     Assertions.assertEquals(expectedOpReturn, opReturnStr);

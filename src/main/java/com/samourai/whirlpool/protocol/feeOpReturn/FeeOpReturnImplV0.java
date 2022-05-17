@@ -38,17 +38,18 @@ public class FeeOpReturnImplV0 extends FeeOpReturnImpl {
     return new FeeOpReturn(feePayload, opReturnVersion);
   }
 
-  @Override
-  public byte[] computeOpReturn(
+  public byte[] computeOpReturnV0(
       String feePaymentCode,
       byte[] feePayload,
-      TransactionOutPoint signingOutpoint,
-      byte[] signingPrivateKey)
+      TransactionOutPoint maskingOutpoint,
+      byte[] input0PrivKey)
       throws Exception {
+
+    // use input0 key for masking
 
     // compute feePayloadMasked
     byte[] feePayloadMasked =
-        maskFeePayload(feePaymentCode, feePayload, signingOutpoint, signingPrivateKey);
+        maskFeePayload(feePaymentCode, feePayload, maskingOutpoint, input0PrivKey);
 
     // compute opReturn
     byte[] opReturn = feePayloadMasked;

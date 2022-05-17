@@ -18,13 +18,24 @@ public class FeeOpReturnImplV1Test extends AbstractTest {
   private static String PCODE_V1 =
       "PM8TJVGXADoSSFmre2HstFraDFYT35K7ccGLMoLMkKS5xMSooWe6RYJBsjqic77EyLs9ULP5unaCajCA2VNVjvETQqyoDEF59dcyGL1riWbk9AwNfAN1";
 
-  private FeeOpReturnImpl feeOpReturnImpl;
+  private static ECKey pk =
+      ECKey.fromPrivate(
+          new BigInteger(
+              "34069012401142361066035129995856280497224474312925604298733347744482107649210"));
+
+  private FeeOpReturnImplV1 feeOpReturnImpl;
   private BIP47Account bip47Account;
 
   @BeforeEach
   public void setup() throws Exception {
     bip47Account = computeBip47Account(SEED_WORDS_V1, SEED_PASSPHRASE_V1, PCODE_V1);
-    feeOpReturnImpl = new FeeOpReturnImplV1(xorMask);
+    feeOpReturnImpl =
+        new FeeOpReturnImplV1(xorMask) {
+          @Override
+          protected byte[] generateMaskingPrivKey() {
+            return pk.getPrivKeyBytes(); // static key for reproductible test
+          }
+        };
   }
 
   @Test
@@ -104,10 +115,6 @@ public class FeeOpReturnImplV1Test extends AbstractTest {
   }
 
   public void doComputeOpReturn(String feePayloadStr, String expectedOpReturn) throws Exception {
-    ECKey pk =
-        ECKey.fromPrivate(
-            new BigInteger(
-                "34069012401142361066035129995856280497224474312925604298733347744482107649210"));
     byte[] feePayloadBytes = bytesFromBinaryString(feePayloadStr);
     System.err.println("feePayloadBytes: " + bytesToBinaryString(feePayloadBytes));
     Assertions.assertEquals(feeOpReturnImpl.feePayloadLength, feePayloadBytes.length);
@@ -116,32 +123,27 @@ public class FeeOpReturnImplV1Test extends AbstractTest {
     SegwitAddress segwitAddress = new SegwitAddress(pk, params);
     TransactionOutPoint outPoint = mockTxOutput(segwitAddress).getOutPointFor();
     String feePaymentCode = bip47Account.getPaymentCode();
-    byte[] opReturn =
-        feeOpReturnImpl.computeOpReturn(
-            feePaymentCode, feePayloadBytes, outPoint, pk.getPrivKeyBytes());
+    byte[] opReturn = feeOpReturnImpl.computeOpReturnV1(feePaymentCode, feePayloadBytes, outPoint);
     String opReturnStr = bytesToBinaryString(opReturn);
     System.err.println("opReturn: " + bytesToBinaryString(opReturn));
     Assertions.assertEquals(expectedOpReturn, opReturnStr);
     Assertions.assertEquals(opReturn.length, feeOpReturnImpl.opReturnLength);
 
     // verify feePayloadMasked
-    byte[] feePayloadMasked =
-        ((FeeOpReturnImplV1) feeOpReturnImpl).extractFeePayloadMasked(opReturn);
+    byte[] feePayloadMasked = feeOpReturnImpl.extractFeePayloadMasked(opReturn);
     System.err.println("feePayloadMasked: " + bytesToBinaryString(feePayloadMasked));
     Assertions.assertEquals(feeOpReturnImpl.feePayloadLength, feePayloadMasked.length);
 
     // verify signingPublicKey
-    byte[] signingPublickey =
-        ((FeeOpReturnImplV1) feeOpReturnImpl).extractSigningPublicKey(opReturn);
+    byte[] signingPublickey = feeOpReturnImpl.extractSigningPublicKey(opReturn);
     System.err.println("signingPublickey: " + bytesToBinaryString(signingPublickey));
-    Assertions.assertEquals(
-        ((FeeOpReturnImplV1) feeOpReturnImpl).SIGNING_KEY_LENGTH, signingPublickey.length);
+    Assertions.assertEquals(feeOpReturnImpl.SIGNING_KEY_LENGTH, signingPublickey.length);
     Assertions.assertArrayEquals(pk.getPubKey(), signingPublickey);
 
     Assertions.assertEquals(
         feeOpReturnImpl.feePayloadLength
-            + ((FeeOpReturnImplV1) feeOpReturnImpl).SIGNING_KEY_LENGTH
-            + ((FeeOpReturnImplV1) feeOpReturnImpl).OP_RETURN_VERSION_LENGTH,
+            + feeOpReturnImpl.SIGNING_KEY_LENGTH
+            + feeOpReturnImpl.OP_RETURN_VERSION_LENGTH,
         feeOpReturnImpl.opReturnLength);
 
     // decode
