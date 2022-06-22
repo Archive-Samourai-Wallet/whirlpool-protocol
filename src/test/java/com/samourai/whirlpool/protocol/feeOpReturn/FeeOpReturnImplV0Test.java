@@ -113,7 +113,7 @@ public class FeeOpReturnImplV0Test extends AbstractTest {
     TransactionOutPoint outPoint = mockTxOutput(segwitAddress).getOutPointFor();
     String feePaymentCode = bip47Account.getPaymentCode();
     byte[] opReturn =
-        feeOpReturnImpl.computeOpReturnV0(
+        feeOpReturnImpl.computeOpReturn(
             feePaymentCode, feePayloadBytes, outPoint, pk.getPrivKeyBytes());
     String opReturnStr = bytesToBinaryString(opReturn);
     Assertions.assertEquals(expectedOpReturn, opReturnStr);

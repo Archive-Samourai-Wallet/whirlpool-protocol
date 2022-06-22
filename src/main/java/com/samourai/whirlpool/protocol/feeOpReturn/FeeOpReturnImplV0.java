@@ -38,7 +38,8 @@ public class FeeOpReturnImplV0 extends FeeOpReturnImpl {
     return new FeeOpReturn(feePayload, opReturnVersion);
   }
 
-  public byte[] computeOpReturnV0(
+  @Override
+  public byte[] computeOpReturn(
       String feePaymentCode,
       byte[] feePayload,
       TransactionOutPoint maskingOutpoint,

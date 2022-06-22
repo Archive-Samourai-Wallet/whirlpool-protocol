@@ -3,6 +3,7 @@ package com.samourai.whirlpool.protocol.feeOpReturn;
 import com.samourai.wallet.bip47.rpc.BIP47Account;
 import com.samourai.whirlpool.protocol.feePayload.FeePayloadV1;
 import com.samourai.whirlpool.protocol.util.XorMask;
+import java.math.BigInteger;
 import java.util.Arrays;
 import org.bitcoinj.core.ECKey;
 import org.bitcoinj.core.TransactionOutPoint;
@@ -60,11 +61,22 @@ public class FeeOpReturnImplV1 extends FeeOpReturnImpl {
   }
 
   protected byte[] generateMaskingPrivKey() {
+    if (isTestMode()) {
+      // static key for unit tests
+      return ECKey.fromPrivate(
+              new BigInteger(
+                  "34069012401142361066035129995856280497224474312925604298733347744482107649210"))
+          .getPrivKeyBytes();
+    }
     return new ECKey().getPrivKeyBytes();
   }
 
-  public byte[] computeOpReturnV1(
-      String feePaymentCode, byte[] feePayload, TransactionOutPoint maskingOutpoint)
+  @Override
+  public byte[] computeOpReturn(
+      String feePaymentCode,
+      byte[] feePayload,
+      TransactionOutPoint maskingOutpoint,
+      byte[] input0PrivKey) // we dont use input0PrivKey anymore
       throws Exception {
 
     // use temporary key for masking

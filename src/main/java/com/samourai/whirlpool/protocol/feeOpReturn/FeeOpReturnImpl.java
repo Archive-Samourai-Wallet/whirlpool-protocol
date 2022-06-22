@@ -14,6 +14,7 @@ public abstract class FeeOpReturnImpl {
   protected int opReturnLength;
   protected int feePayloadLength;
   protected short opReturnVersion;
+  private boolean testMode; // true for unit tests
   protected static int OP_RETURN_VERSION_LENGTH = 1;
 
   public FeeOpReturnImpl(
@@ -22,6 +23,7 @@ public abstract class FeeOpReturnImpl {
     this.opReturnLength = opReturnLength;
     this.feePayloadLength = feePayloadLength;
     this.opReturnVersion = opReturnVersion;
+    this.testMode = false;
   }
 
   public boolean acceptsOpReturn(byte[] opReturn) {
@@ -94,7 +96,22 @@ public abstract class FeeOpReturnImpl {
 
   public abstract byte[] computeFeePayload(int feeIndice, short scodePayload, short partner);
 
+  public abstract byte[] computeOpReturn(
+      String feePaymentCode,
+      byte[] feePayload,
+      TransactionOutPoint maskingOutpoint,
+      byte[] input0PrivKey)
+      throws Exception;
+
   public short getOpReturnVersion() {
     return opReturnVersion;
+  }
+
+  public void setTestMode(boolean testMode) {
+    this.testMode = testMode;
+  }
+
+  public boolean isTestMode() {
+    return testMode;
   }
 }
