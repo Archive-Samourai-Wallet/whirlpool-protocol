@@ -10,4 +10,9 @@ public class RestErrorResponse {
     this.errorCode = errorCode;
     this.message = message;
   }
+
+  @Override
+  public String toString() {
+    return "RestErrorResponse{" + "errorCode=" + errorCode + ", message='" + message + '\'' + '}';
+  }
 }

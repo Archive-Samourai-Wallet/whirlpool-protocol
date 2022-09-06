@@ -19,4 +19,18 @@ public class PushTxErrorResponse extends RestErrorResponse {
   public PushTxErrorResponse(String message, String pushTxErrorCode) {
     this(message, pushTxErrorCode, null);
   }
+
+  @Override
+  public String toString() {
+    return "PushTxErrorResponse{"
+        + "pushTxErrorCode='"
+        + pushTxErrorCode
+        + '\''
+        + ", voutsAddressReuse="
+        + voutsAddressReuse
+        + ", message='"
+        + message
+        + '\''
+        + '}';
+  }
 }
