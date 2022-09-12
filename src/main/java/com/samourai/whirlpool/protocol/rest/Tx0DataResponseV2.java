@@ -20,6 +20,7 @@ public class Tx0DataResponseV2 {
     public String
         feePayload64; // encodeBytes(encodeFeePayload(feeIndex, scodePayload, partnerPayload))
     public String feeAddress;
+    public String feeOutputSignature; // signature of serialized fee output (feeAddress + feeValue)
 
     public Tx0Data() {}
 
@@ -31,7 +32,8 @@ public class Tx0DataResponseV2 {
         int feeDiscountPercent,
         String message,
         String feePayload64,
-        String feeAddress) {
+        String feeAddress,
+        String feeOutputSignature) {
       this.poolId = poolId;
       this.feePaymentCode = feePaymentCode;
       this.feeValue = feeValue;
@@ -40,6 +42,7 @@ public class Tx0DataResponseV2 {
       this.message = message;
       this.feePayload64 = feePayload64;
       this.feeAddress = feeAddress;
+      this.feeOutputSignature = feeOutputSignature;
     }
   }
 }
