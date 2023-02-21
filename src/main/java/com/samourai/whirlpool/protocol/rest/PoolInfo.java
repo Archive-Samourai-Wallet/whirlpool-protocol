@@ -2,6 +2,7 @@ package com.samourai.whirlpool.protocol.rest;
 
 import com.samourai.whirlpool.protocol.websocket.notifications.MixStatus;
 
+@Deprecated // now using PoolInfoSoroban for soroban clients
 public class PoolInfo {
   public String poolId;
   public long denomination; // in satoshis

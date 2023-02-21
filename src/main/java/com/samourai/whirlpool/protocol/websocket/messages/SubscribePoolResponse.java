@@ -1,5 +1,6 @@
 package com.samourai.whirlpool.protocol.websocket.messages;
 
+@Deprecated
 public class SubscribePoolResponse {
   public String networkId;
   public long denomination;

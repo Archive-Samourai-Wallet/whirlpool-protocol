@@ -1,5 +1,6 @@
 package com.samourai.whirlpool.protocol.websocket.notifications;
 
+@Deprecated
 public class ConfirmInputMixStatusNotification extends MixStatusNotification {
   public String publicKey64;
 

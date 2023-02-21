@@ -1,5 +1,6 @@
 package com.samourai.whirlpool.protocol;
 
+import com.samourai.wallet.bip47.rpc.PaymentCode;
 import com.samourai.wallet.util.Z85;
 import com.samourai.whirlpool.protocol.beans.Utxo;
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class WhirlpoolProtocol {
     return url;
   }
 
+  @Deprecated // pools are now published on Soroban
   public static String getUrlFetchPools(String server) {
     String url = server + WhirlpoolEndpoint.REST_POOLS;
     return url;
@@ -66,6 +68,28 @@ public class WhirlpoolProtocol {
   public static String getUrlTx0Push(String server) {
     String url = server + WhirlpoolEndpoint.REST_TX0_PUSH;
     return url;
+  }
+
+  public static String getSorobanDirRegisterInput(String poolId) {
+    return WhirlpoolEndpoint.SOROBAN_DIR_REGISTER_INPUT_BY_POOL_ID + poolId;
+  }
+
+  public static String getSorobanDirSharedNotify(
+      PaymentCode paymentCodeCoordinator, PaymentCode paymentCodeClient) {
+    return computeDirShared(paymentCodeCoordinator, paymentCodeClient, ".notify");
+  }
+
+  public static String getSorobanDirPools() {
+    return WhirlpoolEndpoint.SOROBAN_DIR_POOLS;
+  }
+
+  private static String computeDirShared(
+      PaymentCode paymentCodeCoordinator, PaymentCode paymentCodeClient, String path) {
+    return paymentCodeCoordinator.toString()
+        + "/"
+        + paymentCodeClient.toString()
+        + "/"
+        + path; // TODO
   }
 
   public static long computePremixBalanceMin(
