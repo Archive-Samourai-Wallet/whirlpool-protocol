@@ -23,8 +23,8 @@ public class WhirlpoolEndpoint {
 
   // SOROBAN directories
   public static final String SOROBAN_DIR_REGISTER_INPUT_BY_POOL_ID =
-      "com.samourai.whirlpool.wo.REGISTER_INPUT.";
-  public static final String SOROBAN_DIR_POOLS = "com.samourai.whirlpool.ro.pools";
+      "com.samourai.whirlpool.wo.inputs.";
+  public static final String SOROBAN_DIR_COORDINATORS = "com.samourai.whirlpool.ro.coordinators.";
 
   public WhirlpoolEndpoint() {}
 }

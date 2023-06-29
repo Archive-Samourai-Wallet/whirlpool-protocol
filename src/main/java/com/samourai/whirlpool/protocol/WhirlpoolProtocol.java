@@ -1,14 +1,18 @@
 package com.samourai.whirlpool.protocol;
 
+import com.samourai.soroban.client.RpcWallet;
+import com.samourai.wallet.bip47.BIP47UtilGeneric;
 import com.samourai.wallet.bip47.rpc.PaymentCode;
+import com.samourai.wallet.segwit.SegwitAddress;
+import com.samourai.wallet.util.Util;
 import com.samourai.wallet.util.Z85;
+import com.samourai.whirlpool.client.wallet.beans.WhirlpoolNetwork;
 import com.samourai.whirlpool.protocol.beans.Utxo;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
+import org.bitcoinj.core.NetworkParameters;
 
 public class WhirlpoolProtocol {
   /** Current protocol version. */
@@ -70,26 +74,60 @@ public class WhirlpoolProtocol {
     return url;
   }
 
-  public static String getSorobanDirRegisterInput(String poolId) {
-    return WhirlpoolEndpoint.SOROBAN_DIR_REGISTER_INPUT_BY_POOL_ID + poolId;
+  public static int getSorobanRegisterInputFrequencyMs() {
+    return 30000;
   }
 
-  public static String getSorobanDirSharedNotify(
-      PaymentCode paymentCodeCoordinator, PaymentCode paymentCodeClient) {
-    return computeDirShared(paymentCodeCoordinator, paymentCodeClient, ".notify");
+  public static String getSorobanDirRegisterInput(
+      WhirlpoolNetwork whirlpoolNetwork, String poolId) {
+    return WhirlpoolEndpoint.SOROBAN_DIR_REGISTER_INPUT_BY_POOL_ID
+        + whirlpoolNetwork.name()
+        + "."
+        + poolId;
   }
 
-  public static String getSorobanDirPools() {
-    return WhirlpoolEndpoint.SOROBAN_DIR_POOLS;
+  public static String getSorobanDirRegisterInputResponse(
+      RpcWallet rpcWalletClient,
+      WhirlpoolNetwork whirlpoolNetwork,
+      String utxoHash,
+      long utxoIndex,
+      BIP47UtilGeneric bip47Util,
+      NetworkParameters params)
+      throws Exception {
+    SegwitAddress address =
+        bip47Util.getReceiveAddress(
+            rpcWalletClient, whirlpoolNetwork.getSigningPaymentCode(), 0, params);
+    return getSorobanDirRegisterInputResponse(
+        whirlpoolNetwork, address.getBech32AsString(), utxoHash, utxoIndex);
   }
 
-  private static String computeDirShared(
-      PaymentCode paymentCodeCoordinator, PaymentCode paymentCodeClient, String path) {
-    return paymentCodeCoordinator.toString()
-        + "/"
-        + paymentCodeClient.toString()
-        + "/"
-        + path; // TODO
+  public static String getSorobanDirRegisterInputResponse(
+      RpcWallet rpcWalletCoordinator,
+      WhirlpoolNetwork whirlpoolNetwork,
+      PaymentCode paymentCodeClient,
+      String utxoHash,
+      long utxoIndex,
+      BIP47UtilGeneric bip47Util,
+      NetworkParameters params)
+      throws Exception {
+    SegwitAddress address =
+        bip47Util.getSendAddress(rpcWalletCoordinator, paymentCodeClient, 0, params);
+    return getSorobanDirRegisterInputResponse(
+        whirlpoolNetwork, address.getBech32AsString(), utxoHash, utxoIndex);
+  }
+
+  protected static String getSorobanDirRegisterInputResponse(
+      WhirlpoolNetwork whirlpoolNetwork,
+      String receiveAddressBech32,
+      String utxoHash,
+      long utxoIndex) {
+    String key =
+        whirlpoolNetwork.name() + ":" + receiveAddressBech32 + ":" + utxoHash + ":" + utxoIndex;
+    return Util.sha512Hex(key);
+  }
+
+  public static String getSorobanDirCoordinators(WhirlpoolNetwork whirlpoolNetwork) {
+    return WhirlpoolEndpoint.SOROBAN_DIR_COORDINATORS + whirlpoolNetwork.name();
   }
 
   public static long computePremixBalanceMin(
@@ -115,10 +153,7 @@ public class WhirlpoolProtocol {
     }
     Collections.sort(inputs);
     String inputsString = joinStrings(";", inputs);
-
-    // don't use DigestUtils.sha512Hex() for Android compatibility
-    String inputsHash = new String(Hex.encodeHex(DigestUtils.sha512(inputsString)));
-    return inputsHash;
+    return Util.sha512Hex(inputsString);
   }
 
   private static String joinStrings(String delimiter, Collection<String> strings) {

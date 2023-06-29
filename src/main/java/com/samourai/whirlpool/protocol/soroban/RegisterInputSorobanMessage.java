@@ -1,10 +1,10 @@
 package com.samourai.whirlpool.protocol.soroban;
 
-import com.samourai.soroban.client.AbstractSorobanMessageSimple;
+import com.samourai.soroban.client.AbstractSorobanPayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RegisterInputSorobanMessage extends AbstractSorobanMessageSimple {
+public class RegisterInputSorobanMessage extends AbstractSorobanPayload {
   private static final Logger log = LoggerFactory.getLogger(RegisterInputSorobanMessage.class);
 
   public String poolId;
