@@ -1,17 +1,20 @@
 package com.samourai.whirlpool.protocol.soroban;
 
-import com.samourai.soroban.client.AbstractSorobanMessageSimple;
+import com.samourai.soroban.client.AbstractSorobanPayload;
 
-public class InviteMixSorobanMessage extends AbstractSorobanMessageSimple {
+public class InviteMixSorobanMessage extends AbstractSorobanPayload {
   public String mixId;
   public byte[] mixPublicKey;
-  public String coordinatorIp;
+  public String coordinatorUrlClear;
+  public String coordinatorUrlOnion;
 
   public InviteMixSorobanMessage() {}
 
-  public InviteMixSorobanMessage(String mixId, byte[] mixPublicKey, String coordinatorIp) {
+  public InviteMixSorobanMessage(
+      String mixId, byte[] mixPublicKey, String coordinatorUrlClear, String coordinatorUrlOnion) {
     this.mixId = mixId;
     this.mixPublicKey = mixPublicKey;
-    this.coordinatorIp = coordinatorIp;
+    this.coordinatorUrlClear = coordinatorUrlClear;
+    this.coordinatorUrlOnion = coordinatorUrlOnion;
   }
 }
