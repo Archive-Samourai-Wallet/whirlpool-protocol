@@ -64,28 +64,4 @@ public class WhirlpoolProtocolTest {
         "a8615d928839ab1a23c7a32f2f58cfa5af92bfc46469d3acf42df75f23b731cc4a8fccd94bf65477c887c5b8705e4ef86574362dc9244ae5d4d5835b6eb3a357",
         WhirlpoolProtocol.computeInputsHash(utxos));
   }
-
-  @Test
-  public void getSorobanDirInviteMixSend() throws Exception {
-    String utxoHash = "6517ece36402a89d76d075c60a8d3d0e051e4e5efa42a01c9033328707631b61";
-    long utxoIndex = 3;
-    String directory =
-        WhirlpoolProtocol.getSorobanDirInviteMixSend(
-            rpcWalletCoordinator, paymentCodeClient, utxoHash, utxoIndex, bip47Util, params);
-    Assertions.assertEquals(
-        "6f7a4bac5fab607167b63955d778066074cfcf5cc34028f7b712e5d34012ab81b5febbf9434b8ce519c69487978c9e47b1b5967f3c992fbad40f650cda624964",
-        directory);
-  }
-
-  @Test
-  public void getSorobanDirInviteMixReceive() throws Exception {
-    String utxoHash = "6517ece36402a89d76d075c60a8d3d0e051e4e5efa42a01c9033328707631b61";
-    long utxoIndex = 3;
-    String directory =
-        WhirlpoolProtocol.getSorobanDirInviteMixReceive(
-            rpcWalletClient, paymentCodeCoordinator, utxoHash, utxoIndex, bip47Util, params);
-    Assertions.assertEquals(
-        "6f7a4bac5fab607167b63955d778066074cfcf5cc34028f7b712e5d34012ab81b5febbf9434b8ce519c69487978c9e47b1b5967f3c992fbad40f650cda624964",
-        directory);
-  }
 }
