@@ -6,13 +6,24 @@ import com.samourai.whirlpool.protocol.beans.Utxo;
 import java.util.*;
 
 public class WhirlpoolProtocol {
+  /** Current protocol version. */
   public static final String PROTOCOL_VERSION = "0.23";
+
+  // STOMP configuration
   public static final String WS_PREFIX_USER_PRIVATE = "/private";
   public static final String WS_PREFIX_USER_REPLY = "/reply";
+
+  /** Header specifying the message type. */
   public static final String HEADER_MESSAGE_TYPE = "messageType";
+
+  /** Header specifying the protocol version. */
   public static final String HEADER_PROTOCOL_VERSION = "protocolVersion";
+
+  /** Header specifying the pool id. */
   public static final String HEADER_POOL_ID = "poolId";
+
   public static final String PARTNER_ID_SAMOURAI = "SAMOURAI";
+
   private static final Z85 z85 = Z85.getInstance();
 
   public WhirlpoolProtocol() {}
