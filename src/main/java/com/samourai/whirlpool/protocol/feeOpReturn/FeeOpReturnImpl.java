@@ -107,6 +107,10 @@ public abstract class FeeOpReturnImpl {
     return opReturnVersion;
   }
 
+  public int getOpReturnLength() {
+    return opReturnLength;
+  }
+
   public void setTestMode(boolean testMode) {
     this.testMode = testMode;
   }
