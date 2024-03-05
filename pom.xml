@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.samourai.code.whirlpool</groupId>
 	<artifactId>whirlpool-protocol</artifactId>
-	<version>develop-SNAPSHOT</version>
+	<version>1.0.3.v0-SNAPSHOT</version>
 	<name>whirlpool-protocol</name>
 	<properties>
 		<project.scm.id>samourai</project.scm.id>
