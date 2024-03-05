@@ -3,22 +3,17 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.samourai.code.whirlpool</groupId>
 	<artifactId>whirlpool-protocol-v0</artifactId>
-	<version>develop-SNAPSHOT</version>
+	<version>1.0.1-develop-SNAPSHOT</version>
 	<name>whirlpool-protocol-v0</name>
 	<properties>
 		<project.scm.id>samourai</project.scm.id>
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>1.10</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>io.samourai.code.wallet</groupId>
 			<artifactId>extlibj</artifactId>
 			<version>1.0.0-dexwp-beta3</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.platform</groupId>
